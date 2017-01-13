@@ -6,11 +6,13 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from . import models, forms
 
 
 @login_required
 def index(request):
-    return render(request, "home.html")
+    channels = models.Channel.objects.all()
+    return render(request, "home.html", {'channels': channels})
 
 
 def login_user(request):
@@ -43,3 +45,14 @@ def register(request):
     else:
         user_form = UserCreationForm()
     return render(request, "register.html", {'user_form': user_form})
+
+
+@login_required()
+def create_channel(request):
+    if request.method == 'POST':
+        channel_form = forms.ChannelForm(request.POST)
+        if channel_form.is_valid():
+            channel = models.Channel(name=request.POST['name']).save()
+        else:
+            messages.error(request, "Invalid name.")
+        return HttpResponseRedirect('/')
