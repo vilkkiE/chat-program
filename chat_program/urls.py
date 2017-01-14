@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^logout', views.logout_user),
     url(r'^register', views.register),
     url(r'^create_channel', views.create_channel),
+    url(r'^join_channel', views.join_channel),
 ]

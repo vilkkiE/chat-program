@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from . import models, forms
+from django.template.loader import render_to_string
 
 
 @login_required
@@ -56,3 +57,12 @@ def create_channel(request):
         else:
             messages.error(request, "Invalid name.")
         return HttpResponseRedirect('/')
+
+
+@login_required()
+def join_channel(request):
+    if request.method == 'POST':
+        channel_name = request.POST['channel_name'][1:]
+        channels = models.Channel.objects.all()
+        html_to_return = render_to_string('chat.html', {'channel_name': channel_name, 'channels': channels}, request)
+        return HttpResponse(html_to_return)

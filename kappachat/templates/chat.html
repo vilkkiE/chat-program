@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="height:100%;">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger" role="alert">{{ message }}</div>
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="alert alert-success" role="alert">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <h1 class="page-header">#{{ channel_name }}</h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 current-chat">
+                    <div class="row current-chat-area">
+                        <div class="col-md-12">
+                            <ul class="media-list">
+                                <li class="media">
+                                    <div class="media-body">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim.
+                                                Duis vel condimentum massa.
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.
+                                                <br>
+                                                <small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>
+                                                <hr>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </li>
+                                <li class="media">
+                                    <div class="media-body">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim.
+                                                Duis vel condimentum massa.
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.
+                                                <br>
+                                                <small class="text-muted">Jhon Rexa | 23rd June at 5:00pm</small>
+                                                <hr>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="media">
+                                    <div class="media-body">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim.
+                                                Duis vel condimentum massa.
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.
+                                                <br>
+                                                <small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>
+                                                <hr>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="media">
+                                    <div class="media-body">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim.
+                                                Duis vel condimentum massa.
+                                                Donec sit amet ligula enim. Duis vel condimentum massa.
+                                                <br>
+                                                <small class="text-muted">Jhon Rexa | 23rd June at 5:00pm</small>
+                                                <hr>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row current-chat-footer" style="width:100%;">
+                        <div class="panel-footer">
+                            <div class="input-group">
+                                <input type="text" class="form-control">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">Send</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
