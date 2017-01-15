@@ -9,4 +9,5 @@ class Channel(models.Model):
 class Message(models.Model):
     content = models.TextField()
     channel = models.ForeignKey(Channel, related_name='messages')
+    sentBy = models.ForeignKey(User, related_name='messages')
     created = models.DateTimeField(auto_now_add=True)

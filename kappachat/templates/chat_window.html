@@ -1,0 +1,14 @@
+{% for chat_message in chat_messages %}
+    <li class="media">
+        <div class="media-body">
+            <div class="media">
+                <div class="media-body">
+                    {{ chat_message.content }}
+                    <br>
+                    <small class="text-muted">{{ chat_message.sentBy }} | {{ chat_message.created }}</small>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </li>
+{% endfor %}

@@ -11,89 +11,57 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
-        <h1 class="page-header">#{{ channel_name }}</h1>
+        <h1 class="page-header" id="channelName">#{{ channel_name }}</h1>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12 current-chat">
-                    <div class="row current-chat-area">
+                <div class="col-md-12 current-chat" style="height:82vh;">
+                    <div class="row current-chat-area" style="height:95%;">
                         <div class="col-md-12">
-                            <ul class="media-list">
-                                <li class="media">
-                                    <div class="media-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim.
-                                                Duis vel condimentum massa.
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.
-                                                <br>
-                                                <small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>
-                                                <hr>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </li>
-                                <li class="media">
-                                    <div class="media-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim.
-                                                Duis vel condimentum massa.
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.
-                                                <br>
-                                                <small class="text-muted">Jhon Rexa | 23rd June at 5:00pm</small>
-                                                <hr>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="media">
-                                    <div class="media-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim.
-                                                Duis vel condimentum massa.
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.
-                                                <br>
-                                                <small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>
-                                                <hr>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="media">
-                                    <div class="media-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim.
-                                                Duis vel condimentum massa.
-                                                Donec sit amet ligula enim. Duis vel condimentum massa.
-                                                <br>
-                                                <small class="text-muted">Jhon Rexa | 23rd June at 5:00pm</small>
-                                                <hr>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
+                            <ul class="media-list" id="chatList">
+                                {% include 'chat_window.html' %}
                             </ul>
                         </div>
                     </div>
-                    <div class="row current-chat-footer" style="width:100%;">
+                    <div class="row current-chat-footer" style="width:100%;height:5%;">
                         <div class="panel-footer">
-                            <div class="input-group">
-                                <input type="text" class="form-control">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">Send</button>
-                                </span>
-                            </div>
+                            <form id="messageForm">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="text" id="messageToBeSent" class="form-control" required>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">Send</button>
+                                    </span>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script type="application/javascript">
+        $(document).ready(function() {
+            $('#messageForm').submit(function (event) {
+                event.preventDefault();
+                $('#messageToBeSent').prop('disabled', true);
+                var channelName = $('#channelName').text();
+                $.ajax({
+                    type: "POST",
+                    url: "/send_message/",
+                    data: {
+                        'message': $('#messageToBeSent').val(),
+                        'channel_name': channelName,
+                        'csrfmiddlewaretoken': $("#messageForm > input[name=csrfmiddlewaretoken]").val()
+                    },
+                    complete: function () {
+                        $('#messageToBeSent').prop('disabled', false);
+                        $('#messageToBeSent').val('');
+                        $('#messageToBeSent').focus();
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
 {% endblock %}

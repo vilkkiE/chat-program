@@ -63,6 +63,29 @@ def create_channel(request):
 def join_channel(request):
     if request.method == 'POST':
         channel_name = request.POST['channel_name'][1:]
+        channel = models.Channel.objects.get(name=channel_name)
+        chat_messages = models.Message.objects.filter(channel=channel)
         channels = models.Channel.objects.all()
-        html_to_return = render_to_string('chat.html', {'channel_name': channel_name, 'channels': channels}, request)
+        html_to_return = render_to_string('chat.html', {'channel_name': channel_name, 'channels': channels, 'chat_messages': chat_messages}, request)
+        return HttpResponse(html_to_return)
+
+
+@login_required()
+def send_message(request):
+    if request.method == 'POST':
+        channel_name = request.POST['channel_name'][1:]
+        channel = models.Channel.objects.get(name=channel_name)
+        message = models.Message(content=request.POST['message'], channel=channel, sentBy=request.user).save()
+        return HttpResponse('Message sent')
+
+
+@login_required()
+def update_chat(request):
+    if request.method == 'POST':
+        channel_name = request.POST['channel_name'][1:]
+        channel = models.Channel.objects.get(name=channel_name)
+        chat_messages = models.Message.objects.filter(channel=channel)
+        channels = models.Channel.objects.all()
+        html_to_return = render_to_string('chat_window.html', {'channel_name': channel_name, 'channels': channels,
+                                                               'chat_messages': chat_messages}, request)
         return HttpResponse(html_to_return)
