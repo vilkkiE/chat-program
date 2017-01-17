@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from . import models, forms
 from django.template.loader import render_to_string
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 @login_required
@@ -25,7 +27,7 @@ def login_user(request):
             login(request, user)
             return HttpResponseRedirect('/')
         else:
-            messages.add_message(request, messages.error, "Invalid username or password.")
+            messages.error(request, "Invalid username or password.")
     return render(request, "login.html")
 
 
@@ -89,3 +91,21 @@ def update_chat(request):
         html_to_return = render_to_string('chat_window.html', {'channel_name': channel_name, 'channels': channels,
                                                                'chat_messages': chat_messages}, request)
         return HttpResponse(html_to_return)
+
+
+@login_required()
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'Password changed.')
+            return HttpResponseRedirect('/')
+    else:
+        form = PasswordChangeForm(request.user)
+    form.fields['old_password'].widget.attrs = {'class': 'form-control'}
+    form.fields['new_password1'].widget.attrs = {'class': 'form-control'}
+    form.fields['new_password2'].widget.attrs = {'class': 'form-control'}
+
+    return render(request, "change_password.html", {'form': form})

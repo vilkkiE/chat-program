@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^join_channel', views.join_channel),
     url(r'^send_message', views.send_message),
     url(r'^update_chat', views.update_chat),
+    url(r'^change_password', views.change_password),
 ]
